@@ -4685,6 +4685,8 @@ make install
 
 ### 配置httpd.conf
 
+[httpd](https://www.cnblogs.com/hgzero/p/14136149.html#1.%20httpd)
+
 ![](C:/notebook/pictures/Snipaste_2022-12-10_00-57-06.png =800x)
 
 ```shell
@@ -4981,9 +4983,7 @@ curl http://www.zjk03.com
 
 ## Apache安全控制与认证
 
-### Apache安全控制
-
-#### `<Diretory>`定义块 虚拟目录
+### `<Diretory>`定义块 虚拟目录
 
 ```shell
 <Diretory "目录路径">
@@ -4991,12 +4991,107 @@ curl http://www.zjk03.com
 </Diretory>
 ```
 
-- 每个`<Diretory>`段作用于`<Directory>`中指定的目录及其里面所有文件和子目录。在段中可以设置与该指定目录相关的参数和指令，包括访问控制和认证。
+- （虚拟主机配置文件）每个`<Diretory>`段作用于`<Directory>`中指定的目录及其里面所有文件和子目录。在段中可以设置与该指定目录相关的参数和指令，包括访问控制和认证。
 - 控制命令：Require。
 - 控制方法：基于IP地址、域名、http方法、用户等。
 
-##### 允许/拒绝所有访问指令
+| 指令                            | 说明            |
+| :----------------------------- | :-------------- |
+| Require all granted            | 允许所有主机访问 |
+| Require all denied             | 拒绝所有主机访问 |
+| Require ip 192.168.186.156     | 允许指定主机访问 |
+| Require ip 192.168.186.0/24    | 允许指定网络访问 |
+| Require not ip 192.168.186.156 | 拒绝指定主机访问 |
+| Require host www.test.com      | 允许指定域名访问 |
+| Require not host www.test.com  | 拒绝指定域名访问 |
+
+- 访问没有权限的的地址时：Forbidden ....
+
+#### Apache认证
+
+**基本认证和摘要认证**
 
 
+##### 基本认证 (用户认证) 
+
+###### /usr/local/apache2/bin/htpasswd 
+
+**创建用户**
+
+```shell
+cd /usr/local/apache2/bin
+# 创建口令文件，同时设置admin密码
+./htpasswd -c /usr/local/apache2/conf/users.list admin
+# 添加用户，同时设置密码 显示的是加密的密码
+./htpasswd /usr/local/apache2/conf/users.list user1
+```
+
+**删除用户**
+
+- 直接进入/usr/local/apache2/conf/users.list文件内删除相应内容
+
+###### 修改虚拟主机配置文件
+
+**指令**
+
+```shell 
+# AuthName指定使用认证的域名，该域会出现在用户的密码提问对话中。
+AuthName 域名
+# AuthType用于选择一个目录的用户认证类型：Basic基本认证/Digest摘要认证
+AuthType Basic/Digest
+# AuthUserFile用于设定一个纯文本，包含用于认证的用户名和密码的列表
+AuthUserFile 文件名
+# Require用于设置哪些认证用户允许访问指定的资源
+Require user 用户名 [用户名2...] # 授权给指定用户
+Require valid-user # 授权给所有用户
+```
+
+```shell
+vim /usr/local/apache2/conf/vhost/www.zjk01.conf
+# 修改：
+<VirtualHost 192.168.186.101>
+    ServerName    www.zjk01.com
+    DocumentRoot    /data/www/101
+    <Directory "/data/www/101">
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        AuthType Basic
+        AuthName "auth"
+        AuthFile /usr/local/apache2/conf/users.list
+        Require user admin
+    </Directory>
+</VirtualHost>
+```
+
+###### .htaccess 分布式配置文件
+
+**需要在虚拟主机配置文件中开启选项**
+
+- AllowOverride All
+
+1. 删除原有关于访问控制和用户认证的参数和指令，否则这些指令会被写入.htacess文件
+2. 添加AllowOverride All选项，允许.htaccess文件覆盖httpd.conf文件中关于bm目录的配置，否则.htacess文件配置不能生效。
+
+```shell
+vim /usr/local/apache2/conf/vhost/www.zjk01.conf
+# 修改：
+<VirtualHost 192.168.186.101>
+    ServerName    www.zjk01.com
+    DocumentRoot    /data/www/101
+    <Directory "/data/www/101">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+    </Directory>
+</VirtualHost>
+```
+
+**重启Apache服务,在/data/www/www.zjk01.com**
+
+```shell
+AuthType Basic
+    AuthName "auth"
+    AuthFile /usr/local/apache2/conf/users.list
+    Require user admin
+```
 
 
