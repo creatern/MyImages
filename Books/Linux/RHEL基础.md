@@ -3017,6 +3017,10 @@ export LD_LIBRARY_PATH=/usr/local/ssl/lib:$LD_LIBRARY_PATH:.
 
 ## 网络管理命令
 
+### ip 网络配置工具
+
+![](c:/notebook/pictures/Snipaste_2022-12-12_00-40-46.png =500x)
+
 ### ping
 
 - 用来测试主机之间网络的连通性。执行ping指令会使用ICMP传输协议，发出要求回应的信息，若远端主机的网络功能没有问题，就会回应该信息，因而得知该主机运作正常。
@@ -3077,7 +3081,7 @@ ifconfig eth0 mtu 1500    #设置能通过的最大数据包大小为 1500 bytes
 
 ![](c:/notebook/pictures/Snipaste_2022-12-05_14-39-35.png =300x)
 
-![](c:/notebook/pictures/Snipaste_2022-12-05_14-46-23.png =650x)
+![](c:/notebook/pictures/Snipaste_2022-12-11_23-07-07.png =750x)
 
 ```shell
 # 显示
@@ -3993,6 +3997,122 @@ Address: 192.168.186.137#53
 > bbs.oa.com
 ;; connection timed out; trying next origin
 ;; connection timed out; no servers could be reached
+```
+
+## 路由
+
+### 配置网络接口地址
+
+#### ifconfig 临时修改
+
+```shell
+ifconfig 网络接口 选项
+# up 启动该网络接口
+# down 关闭该网络接口
+# netmask 子网掩码
+# broadcast 广播地址
+# address IP地址
+```
+
+#### 网络接口配置文件 永久修改
+
+**/etc/sysconfig/network-scripts/ifcfg-网络接口名**
+
+- 需要`systemctl restart network`之后生效
+
+```shell
+[root@localhost ~]# vim /etc/sysconfig/network-scripts/ifcfg-ens33
+TYPE="Ethernet"
+PROXY_METHOD="none"
+BROWSER_ONLY="no"
+BOOTPROTO="dhcp" # 地址分配方式
+# dhcp 表示从DHCP服务器动态获取
+# none 表示静态路由
+DEFROUTE="yes"
+IPV4_FAILURE_FATAL="no"
+IPV6INIT="yes"
+IPV6_AUTOCONF="yes"
+IPV6_DEFROUTE="yes"
+IPV6_FAILURE_FATAL="no"
+IPV6_ADDR_GEN_MODE="stable-privacy"
+NAME="ens33" # 网络接口名
+UUID="a6bb1ccf-854f-4179-8245-ebcd4c8946cf"
+DEVICE="ens33" # 网络接口名
+ONBOOT="yes" # 是否在主机启动时启动该接口
+```
+
+#### route 修改静态路由
+
+```shell
+# 添加静态路由
+route add [-net | host] 目标网络/主机 [netmask] [gw] [matric] [dev]
+# 删除静态路由
+route del [-net | host] 目标网络/主机 [netmask] [gw] [matric] [dev]
+```
+
+### 策略路由
+
+![](c:/notebook/pictures/Snipaste_2022-12-12_00-12-12.png =600x)
+
+#### 路由表的管理
+
+- RHEL系统中最多可以同时存在256个路由表（0~255）。每个路由表都各自独立，数据包传输时根据路由策略数据库中的策略决定数据包应该由哪个路由表传输。
+- Linux系统负责维护4个路由表：0、253、254、255。
+    - 0号表unspec是系统保留表；
+    - 253号表default是默认路由表，一般来说，默认的路由都存放在253号表；
+    - 254号表main是主路由表，如果没有指明路由所属的表，所有的路由都默认放在这个表；
+    - 255号表local是本地路由表，由系统自动维护，管理员不能直接修改，本地接口地址、广播地址、NAT地址都放在这。
+    
+**/etc/iproute2/rt_tables**
+
+- 表号和表名的对应关系
+
+```shell
+[root@localhost ~]# cat /etc/iproute2/rt_tables
+#
+# reserved values
+#
+255     local
+254     main
+253     default
+0       unspec
+#
+# local
+#
+#1      inr.ruhep
+```
+
+#### ip route命令 路由管理
+
+```shell
+ip rotue list SELECTOR
+ip route {change | del | add | append | replace | monitor} 路由表名/路由表号
+```
+
+```shell
+# 查看所有路由表信息
+ip route
+# 查看main路由表的信息
+ip route list table main
+# 在主路由表中添加一条路由信息：
+ip route add 192.168.186.0/24 dev ens33 table main
+# 删除到网络192.168.186.0/24的路由信息
+ip route del 192.168.186.0/24
+```
+
+#### ip rule命令 路由策略管理
+
+```shell
+# 查看当前系统存在的路由策略
+ip rule
+# 添加一条路由策略，匹配规则：所有来自192.168.186.0/24子网的数据包,使用12号路由表
+ip rule add from 192.168.186.0/24 table 12
+# 添加一条路由策略，匹配规则：所有发送192.168.186.0/24子网的数据包,使用13号路由表
+ip rule add to 192.168.186.0/24 table 13
+# 删除某条路由策略
+ip route del to 192.168.186.0/24
+# 清空路由策略数据库
+ip rule flush
 ```
 
 # 网络共享NFS、Samba、FTP
