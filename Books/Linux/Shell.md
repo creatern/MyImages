@@ -388,3 +388,76 @@ done
 ```
 
 # 函数
+
+## 系统函数
+
+- 即shell命令
+
+### basename
+
+```shell
+basename [string / pathname] [suffix]
+```
+
+- basename 命令会删掉所有的前缀包括最后一个（‘/’）字符，然后将字符串显示出来。
+- 选项：suffix 为后缀，如果 suffix 被指定了，basename 会将 pathname 或 string 中的 suffix 去掉。
+
+```shell
+[zjk@www ShellTest]$ basename /root/test/hello.txt
+hello.txt
+[zjk@www ShellTest]$ basename /root/test/hello.txt .txt
+hello
+```
+
+### dirname
+
+```shell
+dirname 文件绝对路径
+```
+
+- 从给定的包含绝对路径的文件名中去除文件名（非目录的部分），然后返回剩下的路径（目录的部分）
+
+```shell
+[zjk@www ShellTest]$ dirname /root/test/hellio.txt
+/root/test
+```
+
+## 自定义函数
+
+```shell
+[ function ] 函数名[()]
+{
+    执行语句;
+    [return int;]
+}
+```
+
+1. 必须在调用函数地方之前，先声明函数，shell 脚本是逐行运行。
+2. 函数返回值，只能通过`$?`系统变量获得，可以显示加：return 返回，如果不加，将以最后一条命令运行结果，作为返回值。return 后跟数值 n(0-255)
+
+```shell
+#!/bin/bash
+
+function sum()
+{
+    sumValue=$[ $1 + $2 ]
+    echo "sum=$sumValue"
+}
+
+avg()
+{
+    echo "avg=$[ ($1 + $2) / 2 ]"
+}
+
+function minus
+{
+    echo "minus=$[ $1 - $2 ]"
+}
+
+read -t 10 -p "请输入值1: " num1;
+read -t 10 -p "请输入值2：" num2;
+
+sum $num1 $num2;
+avg $num1 $num2;
+minus $num1 $num2;
+```
