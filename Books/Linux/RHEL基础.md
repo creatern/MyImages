@@ -594,6 +594,41 @@ anaconda-ks.cfg  Desktop  Documents  Downloads  initial-setup-ks.cfg  Music  Pic
 
 ![](c:/notebook/pictures/153845716239573.png =369x)
 
+### echo 输出指定的字符串或者变量
+
+- 用于在shell中打印shell变量的值，或者直接输出指定的字符串。linux的echo命令，在shell编程中极为常用, 在终端下打印变量value的时候也是常常用到的，因此有必要了解下echo的用法echo命令的功能是在显示器上显示一段文字，一般起到一个提示的作用。
+
+**选项 -e 激活转义符**
+
+| 转义符    | 说明    |
+| :-- | :-- |
+| `\e`或 `\033`    |设置终端的颜色    |
+
+#### `\e` 设置终端颜色
+
+```shell
+echo -e "\e[编码1;编码2;编码3m内容"
+# 文字色：
+#颜色码：重置=0，黑色=30，红色=31，绿色=32，黄色=33，蓝色=34，洋红=35，青色=36，白色=37
+echo -e "\e[1;31m内容\e[0m"
+#\e[1;31m 将颜色设置为红色
+#\e[0m 将颜色重新置回
+# 背景色 ：
+#颜色码：重置=0，黑色=40，红色=41，绿色=42，黄色=43，蓝色=44，洋红=45，青色=46，白色=47
+echo -e "\e[1;42m内容\e[0m"
+# 文字闪动：
+# 0 关闭所有属性、1 设置高亮度（加粗）、4 下划线、5 闪烁、7 反显、8 消隐
+echo -e "\033[37;31;5mMySQL Server Stop...\033[39;49;0m"
+```
+
+### printf 格式化并输出结果
+
+![](c:/notebook/pictures/Snipaste_2022-12-17_16-07-55.png =400x)
+
+```shell
+
+```
+
 ### cat 连接文件并打印到标准输出设备上
 
 - 从命令行给出的文件中读取数据，并将这些数据直接送到标准输出文件。
@@ -648,8 +683,6 @@ test
 - 注意：如果表示字节或行数的N值之前有一个”+”号，则从文件开头的第N项开始显示，而不是显示文件的最后N项。N值后面可以有后缀：b表示512，k表示1024，m表示1048576(1M)。
 
 ![](c:/notebook/pictures/Snipaste_2022-12-01_17-01-43.png =1100x)
-
-
 
 ### head
 
@@ -1126,9 +1159,14 @@ chkconfig –level 35 crond on # 加入开机自动启动
 
 # 系统管理
 
-## 系统状态
+## 性能检测与优化
 
-### uptime 查看系统负载
+### CPU相关
+
+- uptime 查看Linux系统负载信息
+- vmstat 显示虚拟内存状态
+
+#### uptime 查看系统负载
 
 - 能够打印系统总共运行了多长时间和系统的平均负载。
 - uptime命令可以显示的信息显示依次为：现在时间、系统已经运行了多长时间、目前有多少登陆用户、系统在过去的1分钟、5分钟和15分钟内的平均负载。
@@ -1145,7 +1183,64 @@ uptime
 # 现在时间、系统已运行时间、登陆用户数、系统在过去的1分钟、5分钟和15分钟内的平均负载。
 ```
 
-### free 显示系统内存状态
+#### vmstat
+
+![](C:/notebook/pictures/Snipaste_2022-12-12_15-05-21.png =300x)
+
+```shell
+[root@bogon ipv4]# vmstat
+procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 1  0      0 4128428   2116 428040   0    0     3     0   14   11  0  0 100 0  0
+```
+
+**Procs（进程）**
+
+- r: 运行队列中进程数量，这个值也可以判断是否需要增加CPU。（长期大于1）
+- b: 等待IO的进程数量。
+
+**Memory（内存）**
+
+- swpd: 使用虚拟内存大小，如果swpd的值不为0，但是SI，SO的值长期为0，这种情况不会影响系统性能。
+- free: 空闲物理内存大小。
+- buff: 用作缓冲的内存大小。
+- cache: 用作缓存的内存大小，如果cache的值大的时候，说明cache处的文件数多，如果频繁访问到的文件都能被cache处，那么磁盘的读IO bi会非常小。
+
+**Swap**
+
+- si: 每秒从交换区写到内存的大小，由磁盘调入内存。
+- so: 每秒写入交换区的内存大小，由内存调入磁盘。
+- 注意：内存够用的时候，这2个值都是0，如果这2个值长期大于0时，系统性能会受到影响，磁盘IO和CPU资源都会被消耗。如果free很少，但是si和so也很少（大多时候是0），那么不用担心，系统性能这时不会受到影响。
+
+**IO（现在的Linux版本块的大小为1kb）**
+
+- bi: 每秒读取的块数
+- bo: 每秒写入的块数
+- 注意：随机磁盘读写的时候，这2个值越大（如超出1024k)，能看到CPU在IO等待的值也会越大。
+
+**system（系统）**
+
+- in: 每秒中断数，包括时钟中断。
+- cs: 每秒上下文切换数。
+- 注意：上面2个值越大，会看到由内核消耗的CPU时间会越大。
+
+**CPU（以百分比表示）**
+
+- us: 用户进程执行时间百分比(user time)
+   - us的值比较高时，说明用户进程消耗的CPU时间多，但是如果长期超50%的使用，那么我们就该考虑优化程序算法或者进行加速。
+- sy: 内核系统进程执行时间百分比(system time)
+   - sy的值高时，说明系统内核消耗的CPU资源多，这并不是良性表现，我们应该检查原因。
+- wa: IO等待时间百分比
+   - wa的值高时，说明IO等待比较严重，这可能由于磁盘大量作随机访问造成，也有可能磁盘出现瓶颈（块操作）。
+- id: 空闲时间百分比
+
+###  内存相关
+
+- top
+- free
+- vmstat
+
+#### free 显示系统内存状态
 
 **格式**
 
@@ -1175,7 +1270,32 @@ Total:        10063         911        8157
 ![](c:/notebook/pictures/Snipaste_2022-11-27_20-59-05.png =700x)
 
 
+### IO
 
+- iostat
+
+#### iostat 监视系统输入输出设备和CPU的使用情况
+
+- iostat命令 被用于监视系统输入输出设备和CPU的使用情况。它的特点是汇报磁盘活动统计情况，同时也会汇报出CPU使用情况。同vmstat一样，iostat也有一个弱点，就是它不能对某个进程进行深入分析，仅对系统的整体情况进行分析。
+
+![](C:/notebook/pictures/Snipaste_2022-12-12_15-13-00.png =300x)
+
+![](C:/notebook/pictures/Snipaste_2022-12-12_15-14-15.png =430x)
+
+```shell
+[root@bogon ipv4]# iostat -x /dev/sda1
+Linux 3.10.0-693.el7.x86_64 (bogon)     12/12/2022      _x86_64_        (12 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+           0.01    0.00    0.03    0.00    0.00   99.96
+
+Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
+sda1              0.00     0.00    0.18    0.00     0.56     0.20     8.34     0.00    0.13    0.12    3.00   0.12   0.00
+```
+
+### 网络性能评估
+
+- netstat
 
 ## 运行级别
 
@@ -1602,6 +1722,13 @@ chgrp [选项][组群][文件|目录]
 **权限**
 
 ## 文件操作
+
+### touch 创建新的空文件
+
+- 一是用于把已存在文件的时间标签更新为系统当前的时间（默认方式），它们的数据将原封不动地保留下来；二是用来创建新的空文件。
+
+![](c:/notebook/pictures/Snipaste_2022-12-19_16-48-24.png =600x)
+
 
 ### sed 流编辑器
 
@@ -3013,6 +3140,10 @@ export LD_LIBRARY_PATH=/usr/local/ssl/lib:$LD_LIBRARY_PATH:.
 
 ### ldd 查看程序使用了哪些动态库文件
 
+## yum
+
+
+
 # 网络管理
 
 ## 网络管理命令
@@ -4115,6 +4246,55 @@ ip route del to 192.168.186.0/24
 ip rule flush
 ```
 
+## NAT
+
+- NAT网络地址转换，将IP数据包头中的IP地址转换为另外一个IP地址，以实现私有IP地址访问公有网络。
+   - 私有IP地址：A类10.0.0.0~10.255.255.255; B类172.16.0.0~172.31.255.255；C类192.168.0.0~192.168.255.255
+- NAT会自动修改IP报文的源IP地址和目的IP地址，IP地址校验在NAT处理过程中自动完成。
+
+![](c:/notebook/pictures/Snipaste_2022-12-12_14-33-36.png =300x)
+
+**NAT的实现：**
+
+1. 静态转换：某个私有IP地址只能转换为某个指定的公有IP地址。
+2. 动态转换：IP地址是随机的，系统会自动随机选择一个没有被使用的公有IP地址进行转换。
+3. **端口多路复用**：修改数据包的源端口并进行端口转换，使内部网络的多台主机可以共享一个公有IP地址。
+
+### 配置NAT服务
+
+```shell
+# 开启转发功能
+echo 1 > /proc/sys/net/ipv4/ip_forward
+# 配置NAT规则
+```
+
+#### firewall-cmd
+
+**将网络接口加入到外部区域**
+
+```shell
+# 查看网络接口ens33所属区域
+firewall-cmd --get-zone-of-interface=ens33
+# 改变区域为external
+firewall-cmd --permanent --zone=external --change-interface=ens33
+# 查看外部区域配置
+firwall-cmd --zone=external --list-all
+# 打开外部区域的伪装
+firewall-cmd --permanent --zone=external --add-masquerade
+```
+
+**配置内部接口**
+
+```shell
+firewall-cmd --get-zone-of-interface=ens101
+firewall-cmd --permanent --zone=internal --change-interface=ens101
+```
+
+**配置上网**
+
+- 将所有主机的网关设置为RHEL主机的网络接口ens101（内部接口）的IP地址。
+- 内部网络的主机的DNS服务器设置为运营商提供的DNS服务器的地址。
+
 # 网络共享NFS、Samba、FTP
 
 ## NFS 网络文件系统
@@ -4710,6 +4890,262 @@ chmod -R 777 /data/guest/
 
 ##### 登录
 
+# 防火墙管理
+
+## 工作原理
+
+- Linux内核提供的防火墙功能通过netfiter框架实现，并提供了iptables、firewalld工具配置和修改防火墙的规则。
+
+### netfiter
+
+- netfiter的通用框架不依赖于具体的协议，而是为每种网络协议定义一套**钩子函数**，在数据包经过协议栈的几个关键点时，调用这些钩子函数，同时协议栈将数据包和钩子函数作为参数传递给netfiter框架。
+- 对于每种网络协议定义的钩子函数，任何内核模块可以对每种协议的一个或多个钩子函数进行注册，实现挂接：当某个数据包被传递给netfiter框架时，内核能检测到是否有相关模块对该协议和钩子函数进行了注册，若发现注册信息，则调用该模块注册时使用的回调函数，然后对应模块去检查、修改、丢弃该数据包并指示netfiter将该数据包传入用户空间的队列。
+
+### netfiter体系结构
+
+**数据包通信步骤**
+
+![](c:/notebook/pictures/Snipaste_2022-12-12_19-10-31.png =400x)
+
+![](C:/notebook/pictures/Snipaste_2022-12-12_19-13-32.png =700x)
+
+### 包过滤
+
+- 每个函数都可以对数据包进行处理，最基本的操作就是对数据包进行过滤。root用户可以通过iptables工具向内核模块注册多个过滤规则，并且指明过滤规则的优先权，每个钩子函数按照规则进行匹配，如果匹配则执行过滤操作。
+
+| 过滤操作   | 说明                  |
+| :-------- | :------------------- |
+| NF_ACCEPT | 继续正常地传送包       |
+| NF_DROP   | 丢弃包，停止传送       |
+| NF_STOLEN | 已经接管包，不继续传送 |
+| NF_REPEAT | 再次使用该钩子函数     |
+
+### 包选择
+
+- 在netfiter框架上已经创建了一个包选择系统，这个包选择工具默认注册了3个表：过滤filter表、网络地址转换NAT表：mangle表。
+
+![](c:/notebook/pictures/Snipaste_2022-12-12_19-42-30.png =600x)
+
+- 在调用钩子函数时，按照如上的顺序来调用需要的表。
+- 包过滤表只是过滤包，而不改变包，实际中由网络过滤框架来通过NF_IP_FORWARD钩子的输入和输出接口。NF_IP_LOCAL_IN和NF_IP_LOCAL_OUT也可以过滤，但只对本机。
+- NAT表分别服务于两套不同的网络过滤挂钩的包，对于非本地包，NF_IP_PRE_ROUTING和NF_IP_POST_ROUTING挂钩可以很好地解决源地址和目标地址的变更问题。
+- NAT表与Filter表的区别在于NAT表只有新建连接的第一个包会在表中传送，结果将被用于以后所有来自这一连接的包。如：某一连接的第一个数据包在这个表中被替换了源地址，则接下来的这条连接的所有包都将被替换源地址。
+- Mangle表用于真正改变包的信息，Mangle表和所有的5个网络过滤的钩子都有关。
+
+## firewalld
+
+### Zone 防火墙区域/网络区域
+
+- Zone：防火墙区域/网络区域，是一系列可以被快速执行到网络接口的预设置。
+
+![](c:/notebook/pictures/Snipaste_2022-12-12_19-52-57.png =630x)
+
+- 一个网络接口只能与一个网络区域对应。当数据包进入区域后，防火墙会依据区域内的规则进行逐一过滤，只有符合规则的数据包才能通过区域到达本机应用。
+
+**共9个区域，从信任到不信任 如下：**
+
+| 区域                   | 说明                                                            |
+| :--------------------- | :------------------------------------------------------------- |
+| trusted （信任）       | 信任所有的网络连接                                               |
+| internal （内部网络）   | 用于企业等的内部网络，可基本信任内部网络中的计算机不会威胁计算机安全 |
+| home （家庭网络）       | 可基本信任家庭网络中的计算机不会危害计算机安全                     |
+| work （工作网络）       | 可基本信任工作网络中的计算机不会危害计算机的安全                    |
+| dmz （非军事区/隔离区） | 此区域内的电脑可以公开访问，可以有限的进入内部网络                  |
+| external  （外部网络）  | 通常是使用了伪装的外部网络，该区域内的计算机可能会危害计算机安全     |
+| public （公共区域）     | 在公共区域使用，该区域内的计算机可能会危害计算机安全                |
+| block （阻塞/拒绝）     | 任何进入的网络连接都会被拒绝，并返回IPv4或IPv6的拒绝报文            |
+| drop （丢弃）          | 任何进入的网络连接都会被丢弃，没有任何回复                         |
+
+- 无论处于哪个区域，防火墙都不会拒绝由本机主动发起的网络连接，即：本地发起的数据包（包含对方响应或返回的数据包）将通过该区域。虽然这些区域已经有所描述，但实际通行规则由区域内的规则决定，最终决定连接是否被放行的是规则而不是区域的描述。
+
+### firewall-cmd / firewall-config 配置工具
+
+- firewall-cmd 是 firewalld的字符界面管理工具，firewalld支持动态更新，不用重启服务。
+
+**firewalld跟iptables比起来至少有两大好处：**
+
+- firewalld可以动态修改单条规则，而不需要像iptables那样，在修改了规则后必须得全部刷新才可以生效。
+- firewalld自身并不具备防火墙的功能，而是和iptables一样需要通过内核的netfilter来实现，也就是说firewalld和 iptables一样，他们的作用都是用于维护规则，而真正使用规则干活的是内核的netfilter。
+
+
+#### 配置firewalld
+
+```shell
+firewall-cmd --version  # 查看版本
+firewall-cmd --help     # 查看帮助
+
+# 查看设置：
+firewall-cmd --state  # 显示状态
+firewall-cmd --get-active-zones  # 查看区域信息
+firewall-cmd --get-zone-of-interface=eth0  # 查看指定接口所属区域
+firewall-cmd --panic-on  # 拒绝所有包
+firewall-cmd --panic-off  # 取消拒绝状态
+firewall-cmd --query-panic  # 查看是否拒绝
+
+# 更新防火墙规则
+firewall-cmd --reload
+firewall-cmd --complete-reload
+# 两者的区别就是第一个无需断开连接，就是firewalld特性之一动态添加规则，第二个需要断开连接，类似重启服务
+
+# 将接口添加到区域，默认接口都在public
+firewall-cmd --zone=public --add-interface=eth0
+# 永久生效再加上 --permanent 然后reload防火墙
+
+# 设置默认接口区域，立即生效无需重启
+firewall-cmd --set-default-zone=public
+
+# 查看所有打开的端口：
+firewall-cmd --zone=dmz --list-ports
+
+# 加入一个端口到区域：
+firewall-cmd --zone=dmz --add-port=8080/tcp
+# 若要永久生效方法同上
+
+# 打开一个服务，类似于将端口可视化，服务需要在配置文件中添加，/etc/firewalld 目录下有services文件夹，这个不详细说了，详情参考文档
+firewall-cmd --zone=work --add-service=smtp
+
+# 移除服务
+firewall-cmd --zone=work --remove-service=smtp
+
+# 显示支持的区域列表
+firewall-cmd --get-zones
+
+# 设置为家庭区域
+firewall-cmd --set-default-zone=home
+
+# 查看当前区域
+firewall-cmd --get-active-zones
+
+# 设置当前区域的接口
+firewall-cmd --get-zone-of-interface=enp03s
+
+# 显示所有公共区域（public）
+firewall-cmd --zone=public --list-all
+
+# 临时修改网络接口（enp0s3）为内部区域（internal）
+firewall-cmd --zone=internal --change-interface=enp03s
+
+# 永久修改网络接口enp03s为内部区域（internal）
+firewall-cmd --permanent --zone=internal --change-interface=enp03s
+```
+
+
+#### 服务管理
+
+```shell
+# 显示服务列表  
+Amanda, FTP, Samba和TFTP等最重要的服务已经被FirewallD提供相应的服务，可以使用如下命令查看：
+
+firewall-cmd --get-services
+
+# 允许SSH服务通过
+firewall-cmd --enable service=ssh
+
+# 禁止SSH服务通过
+firewall-cmd --disable service=ssh
+
+# 打开TCP的8080端口
+firewall-cmd --enable ports=8080/tcp
+
+# 临时允许Samba服务通过600秒
+firewall-cmd --enable service=samba --timeout=600
+
+# 显示当前服务
+firewall-cmd --list-services
+
+# 添加HTTP服务到内部区域（internal）
+firewall-cmd --permanent --zone=internal --add-service=http
+firewall-cmd --reload     # 在不改变状态的条件下重新加载防火墙
+```
+
+#### 端口管理
+
+```shell
+# 打开443/TCP端口
+firewall-cmd --add-port=443/tcp
+
+# 永久打开3690/TCP端口
+firewall-cmd --permanent --add-port=3690/tcp
+
+# 永久打开端口好像需要reload一下，临时打开好像不用，如果用了reload临时打开的端口就失效了
+# 其它服务也可能是这样的，这个没有测试
+firewall-cmd --reload
+
+# 查看防火墙，添加的端口也可以看到
+firewall-cmd --list-all
+```
+
+
+#### 直接模式
+
+```shell
+# firewalld包括一种直接模式，使用它可以完成一些工作，例如打开TCP协议的9999端口
+firewall-cmd --direct -add-rule ipv4 filter INPUT 0 -p tcp --dport 9000 -j ACCEPT
+firewall-cmd --reload
+```
+
+#### 控制端口 / 服务
+
+- 可以通过两种方式控制端口的开放，一种是指定端口号，另一种是指定服务名。虽然开放 http 服务就是开放了 80 端口，但是还是不能通过端口号来关闭，也就是说通过指定服务名开放的就要通过指定服务名关闭；通过指定端口号开放的就要通过指定端口号关闭。还有一个要注意的就是指定端口的时候一定要指定是什么协议，tcp 还是 udp。知道这个之后以后就不用每次先关防火墙了，可以让防火墙真正的生效。
+
+```shell
+firewall-cmd --add-service=mysql        # 开放mysql端口
+firewall-cmd --remove-service=http      # 阻止http端口
+firewall-cmd --list-services            # 查看开放的服务
+firewall-cmd --add-port=3306/tcp        # 开放通过tcp访问3306
+firewall-cmd --remove-port=80tcp        # 阻止通过tcp访问3306
+firewall-cmd --add-port=233/udp         # 开放通过udp访问233
+firewall-cmd --list-ports               # 查看开放的端口
+```
+
+#### 伪装 IP
+
+```shell
+firewall-cmd --query-masquerade # 检查是否允许伪装IP
+firewall-cmd --add-masquerade   # 允许防火墙伪装IP
+firewall-cmd --remove-masquerade# 禁止防火墙伪装IP
+```
+
+#### 端口转发
+
+- 端口转发可以将指定地址访问指定的端口时，将流量转发至指定地址的指定端口。转发的目的如果不指定 ip 的话就默认为本机，如果指定了 ip 却没指定端口，则默认使用来源端口。 如果配置好端口转发之后不能用，可以检查下面两个问题：
+1. 比如我将 80 端口转发至 8080 端口，首先检查本地的 80 端口和目标的 8080 端口是否开放监听了
+2. 其次检查是否允许伪装 IP，没允许的话要开启伪装 IP
+
+```shell
+firewall-cmd --add-forward-port=port=80:proto=tcp:toport=8080   # 将80端口的流量转发至8080
+firewall-cmd --add-forward-port=proto=80:proto=tcp:toaddr=192.168.1.0.1 # 将80端口的流量转发至192.168.0.1
+firewall-cmd --add-forward-port=proto=80:proto=tcp:toaddr=192.168.0.1:toport=8080 # 将80端口的流量转发至192.168.0.1的8080端口
+```
+
+- 当我们想把某个端口隐藏起来的时候，就可以在防火墙上阻止那个端口访问，然后再开一个不规则的端口，之后配置防火墙的端口转发，将流量转发过去。
+- 端口转发还可以做流量分发，一个防火墙拖着好多台运行着不同服务的机器，然后用防火墙将不同端口的流量转发至不同机器。
+
+
+```shell
+[root@bogon ~]# firewall-cmd --get-zones
+block dmz drop external home internal public trusted work
+[root@bogon ~]# firewall-cmd --get-default-zone
+public
+[root@bogon ~]# firewall-cmd --get-active-zones
+public
+  interfaces: ens33
+[root@bogon ~]# firewall-cmd --zone=internal --change-interface=ens33
+The interface is under control of NetworkManager, setting zone to 'internal'.
+success
+[root@bogon ~]# firewall-cmd --get-active-zones
+internal
+  interfaces: ens33
+[root@bogon ~]# firewall-cmd --get-zone-of-interface=ens33
+internal
+[root@bogon ~]# firewall-cmd --reload
+success
+[root@bogon ~]# firewall-cmd --get-zone-of-interface=ens33
+internal
+[root@bogon ~]# firewall-cmd --get-services
+RH-Satellite-6 amanda-client amanda-k5-client bacula bacula-client bitcoin bitcoin-rpc bitcoin-testnet bitcoin-testnet-rpc ceph ceph-mon cfengine condor-collector ctdb dhcp dhcpv6 dhcpv6-client dns docker-registry dropbox-lansync elasticsearch freeipa-ldap freeipa-ldaps freeipa-replication freeipa-trust ftp ganglia-client ganglia-master high-availability http https imap imaps ipp ipp-client ipsec iscsi-target kadmin kerberos kibana klogin kpasswd kshell ldap ldaps libvirt libvirt-tls managesieve mdns mosh mountd ms-wbt mssql mysql nfs nrpe ntp openvpn ovirt-imageio ovirt-storageconsole ovirt-vmconsole pmcd pmproxy pmwebapi pmwebapis pop3 pop3s postgresql privoxy proxy-dhcp ptp pulseaudio puppetmaster quassel radius rpc-bind rsh rsyncd samba samba-client sane sip sips smtp smtp-submission smtps snmp snmptrap spideroak-lansync squid ssh synergy syslog syslog-tls telnet tftp tftp-client tinc tor-socks transmission-client vdsm vnc-server wbem-https xmpp-bosh xmpp-client xmpp-local xmpp-server
+```
+
 # MySQL
 
 ## 安装 mariadb
@@ -4748,7 +5184,7 @@ cd openssl-1.0.1s
 ./config --prefix=/usr/local/ssl --shared
 make
 make install
-echo /usr/local/ssl/lib/ >> /ect/ld.so.conf
+echo /usr/local/ssl/lib/ >> /etc/ld.so.conf
 ldconfig
 ```
 
@@ -4782,7 +5218,7 @@ make install
 # 安装源码包
 cd /root/install
 wget http://archive.apache.org/dist/httpd/httpd-2.4.18.tar.gz
-tar -xvf httpd-2.4.18.tar.gz
+tar -xvf
 cd httpd-2.4.18
 ./configure --prefix=/usr/local/apache2 \
 --enable-so \
@@ -4939,14 +5375,14 @@ vim /usr/local/apache2/conf/vhost/www.zjk03.conf
 1. 绑定IP
 
 ```shell
-ifconfig ens33:4 192.168.186.104
+ifconfig ens33:4 192.168.186.157
 ```
 
 2. 修改主机/etc/hosts文件
 
 ```shell
 vim /etc/hosts
-echo -e "192.168.186.104 www.zjk04.com" >> /etc/hosts
+echo -e "192.168.186.157 www.test.com" >> /etc/hosts
 ```
 
 3. 建立虚拟主机存放网页的根目录，并创建首页文件
@@ -4965,17 +5401,17 @@ echo "port 9081" > 9081/index.html
 4. 修改httpd.conf，添加
 
 ```shell
-echo -e "Listen 192.168.186.104:7081\nListen 192.168.186.104:8081\nListen 192.168.186.104:9081" >> /usr/local/apache2/conf/httpd.conf
+echo -e "Listen 192.168.186.157:7081\nListen 192.168.186.157:8081\nListen 192.168.186.157:9081" >> /usr/local/apache2/conf/httpd.conf
 ```
 
 5. 编辑每个IP的配置文件
 
 ```shell
 mkdir /usr/local/apache2/conf/vhost
-vim /usr/local/apache2/conf/vhost/www.zjk04.7081.conf
+vim /usr/local/apache2/conf/vhost/www.test.7081.conf
 # 编辑7081
-<VirtualHost 192.168.186.104:7081>
-    ServerName    www.zjk04.com
+<VirtualHost 192.168.186.157:7081>
+    ServerName    www.test.com
     DocumentRoot    /data/port/7081
     <Directory "/data/port/7081/">
         Options Indexes FollowSymLinks
@@ -4986,8 +5422,8 @@ vim /usr/local/apache2/conf/vhost/www.zjk04.7081.conf
 
 vim /usr/local/apache2/conf/vhost/www.zjk04.8081.conf
 # 编辑8081
-<VirtualHost 192.168.186.104:8081>
-    ServerName    www.zjk04.com
+<VirtualHost 192.168.186.157:8081>
+    ServerName    www.test.com
     DocumentRoot    /data/port/8081
     <Directory "/data/port/8081/">
         Options Indexes FollowSymLinks
@@ -4999,8 +5435,8 @@ vim /usr/local/apache2/conf/vhost/www.zjk04.8081.conf
 # 编辑9081
 vim /usr/local/apache2/conf/vhost/www.zjk04.9081.conf
 # 编辑9081
-<VirtualHost 192.168.186.104:9081>
-    ServerName    www.zjk04.com
+<VirtualHost 192.168.186.157:9081>
+    ServerName    www.test.com
     DocumentRoot    /data/port/9081
     <Directory "/data/port/9081/">
         Options Indexes FollowSymLinks
@@ -5099,6 +5535,11 @@ vim /usr/local/apache2/conf/vhost/www.test.com.conf
 curl http://www.zjk01.com
 curl http://www.zjk02.com
 curl http://www.zjk03.com
+```
+
+```shell
+[root@localhost port]# curl http://www.test.com
+<html><body><h1>It works!</h1></body></html>
 ```
 
 ## Apache安全控制与认证
@@ -5214,4 +5655,17 @@ AuthType Basic
     Require user admin
 ```
 
+# LVS 集群负载均衡
 
+![](C:/notebook/pictures/Snipaste_2022-12-12_15-30-22.png =300x)
+
+# 集群技术与双机热备
+
+
+# KVM虚拟化
+
+# OpenStack
+
+# Hadoop
+
+# Spark
