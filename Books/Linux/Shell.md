@@ -33,6 +33,32 @@ source test.sh
 # 子shell中设置的当前变量，父 shell 是不可见的
 ```
 
+## 引号
+
+### 单引号和双引号
+
+#### 对特殊符号的处理
+
+**单引号**：将特殊符号变成普通符号
+**双引号**：保持特殊符号的特殊使用
+
+```shell
+[root@www Test]# echo "current position is `pwd`"
+current position is /root/Test
+[root@www Test]# echo 'current position is `pwd`'
+current position is `pwd`
+```
+
+### 命令替换 ``反引号
+
+- 使用命令的输出结果来替换命令
+
+```shell
+tar -czvf /root/Test/log-`date +%Y%m%d`.tar.gz /var/log
+
+[root@www Test]# echo "current position is `pwd`"
+current position is  /root/Test
+```
 
 # 变量
 
@@ -284,6 +310,47 @@ $[运算式]
 1+2
 3
 3
+```
+
+## let
+
+![](c:/notebook/pictures/Snipaste_2022-12-31_22-38-04.png =600x)
+
+```shell
+[root@www Test]# let A=1+2
+[root@www Test]# echo $A
+3
+```
+
+## bc
+
+- bc命令 是一种支持任意精度的交互执行的计算器语言。
+- bash内置了对整数四则运算的支持，但是并不支持浮点运算。
+
+![](c:/notebook/pictures/Snipaste_2022-12-31_22-42-49.png =300x)
+
+```shell
+[root@www Test]# echo $[ 9.9 * 9 ]
+-bash: 9.9 * 9 : syntax error: invalid arithmetic operator (error token is ".9 * 9 ")
+
+# 算术操作高级运算bc命令它可以执行浮点运算和一些高级函数：
+echo "1.212*3" | bc 
+3.636
+# 设定小数精度（数值范围）
+echo "scale=2;3/8" | bc # 参数scale=2是将bc输出结果的小数位设置为2位。
+0.37
+
+# 进制转换
+abc=192
+echo "obase=2;$abc" | bc
+#执行结果为：11000000，这是用bc将十进制转换成二进制。
+abc=11000000
+echo "obase=10;ibase=2;$abc" | bc
+#执行结果为：192，这是用bc将二进制转换为十进制。
+
+# 计算平方和平方根：
+echo "10^10" | bc
+echo "sqrt(100)" | bc
 ```
 
 ## 条件判断
