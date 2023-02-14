@@ -499,6 +499,37 @@ preference 搜索 keys
 ![](c:/notebook/pictures/Snipaste_2022-11-21_14-05-54.png =500x)
 ![](c:/notebook/pictures/Snipaste_2022-11-21_14-07-25.png =500x)
 
+# Linux安装Java
+
+
+```shell
+# 1.下载tar.gz后缀的
+#把下载的文件 jdk-8u151-linux-x64.tar.gz 放在/usr/java/目录下。
+# 2.在/usr/目录下创建java目录，
+mkdir /usr/java
+cd /usr/java
+# 3.解压 JDK
+tar -zxvf jdk-8u151-linux-x64.tar.gz
+# 4.设置环境变量
+#修改 /etc/profile
+#在 profile 文件中添加如下内容并保存：
+set java environment
+JAVA_HOME=/usr/java/jdk1.8.0_151        
+JRE_HOME=/usr/java/jdk1.8.0_151/jre     
+CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+export JAVA_HOME JRE_HOME CLASS_PATH PATH
+#注意：其中 JAVA_HOME， JRE_HOME 请根据自己的实际安装路径及 JDK 版本配置。
+#让修改生效：
+source /etc/profile
+# 5.测试
+java -version
+#显示 java 版本信息，则说明 JDK 安装成功：
+java version "1.8.0_151"
+Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.151-b12, mixed mode)
+```
+
 # 基础先导
 
 ## DOS命令
