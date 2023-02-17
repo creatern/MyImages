@@ -16,7 +16,7 @@ unzip linux.x64_11gR2_database_1of2.zip
 unzip linux.x64_11gR2_database_2of2.zip
 
 # 将解压后的文件夹直接移动到/software目录下：
-mv database/ /software/
+mv database /software/database
 cd /software
 
 # 关闭selinux
@@ -100,7 +100,7 @@ rpm -ivh unixODBC-devel-2.3.1-11.el7.x86_64.rpm
 # pcre-devel
 rpm -ivh pcre-devel-8.32-17.el7.x86_64.rpm
 
-cd /root/software 
+cd /software 
 
 # 添加安装用户和用户组
 groupadd oinstall
