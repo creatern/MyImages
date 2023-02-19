@@ -1660,6 +1660,8 @@ Removed symlink /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service.
 
 ## 文件权限
 
+- 对root用户而言，rw权限是可以无视的，而执行文件则必须要有x权限（包括root用户）。
+
 ### chown 改变文件所有者
 
 ![](c:/notebook/pictures/Snipaste_2022-11-28_20-35-01.png =700x)
@@ -1955,6 +1957,37 @@ mkdir 目录
 mkdir /目录1/目录2
 # 创建目录的同时指定权限
 mkdir -m 777 目录
+```
+
+### ln 文件链接
+
+**硬链接**
+
+- 如果源文件被删除，硬链接仍然可以正常使用、读写数据
+- 不可以跨区/磁盘创建硬链接
+- 硬链接与源文件使用的是相同的设备、inode编号，文件属性和源文件相同
+
+```shell
+ln 源路径 目标路径
+```
+
+**软链接**
+
+- 如果源文件被删除，则无法继续使用软链接
+- 可以跨分区/磁盘创建软链接
+- 软链接的文件属性被标记为`l`;同时有指针`->`指向源文件
+
+```shell
+ln -s 源路径 目标路径
+```
+
+```shell
+[root@bogon testDir01]# ln /root/Test/test01.test test01ln.test
+[root@bogon testDir01]# ln -s /root/Test/test01.test test01lns.test
+[root@bogon testDir01]# ll
+total 0
+-rw-r--r--. 2 root root  0 Feb 19 14:23 test01ln.test
+lrwxrwxrwx. 1 root root 22 Feb 19 14:24 testlns.test -> /root/Test/test01.test
 ```
 
 # 磁盘管理

@@ -355,7 +355,16 @@ echo "sqrt(100)" | bc
 
 ## 条件判断
 
+### [] 和 test
+
 ![](c:/notebook/pictures/Snipaste_2022-12-19_16-17-55.png =600x)
+
+- -z 或 -n 判断字符串是否为空，最好使用"$变量"的方式判断，因为空格也被看作不为空。
+- -x 判断文件存在且当前用户拥有执行权限
+- -s 判断文件存在且非空
+- ! 取反
+- -a 即&&
+- -o 即||
 
 **多条件判断**
 
@@ -373,6 +382,30 @@ echo "sqrt(100)" | bc
 1不等于2
 [root@www ~]# [ 1 -ne 2 ] && echo "1不等于2"
 1不等于2
+```
+
+### [[]]
+
+- 支持使用&&和||符号，而在[]中不支持
+- 使用<或>时，系统进行的是排序操作，使用的是本地的locale语言顺序，可以使用`LANG=C`设置使用ASCII码排序
+- 在[[]]中，==是模式匹配，可以使用通配符`*、?、[...]`等，而在[]中==是匹配字符串是否相同
+- [[]]支持使用=~进行正则匹配，而[]不支持正则
+- [[]]允许使用()进行运算，而[]仅支持部分
+
+```shell
+[root@bogon testDir01]# [[ b > a ]] && echo Y || echo N
+Y
+[root@bogon testDir01]# [[ a > A ]] && echo Y || echo N
+N
+[root@bogon testDir01]# [[ b > a  && a > c ]] && echo Y || echo N
+N
+[root@bogon testDir01]# testName=jack
+[root@bogon testDir01]# [[ $testName == j* ]] && echo Y || echo N
+Y
+[root@bogon testDir01]# [[ $testName =~ c ]] && echo Y || echo N
+Y
+[root@bogon testDir01]# [[ $testName =~ [a-z] ]] && echo Y || echo N
+Y
 ```
 
 # 流程控制

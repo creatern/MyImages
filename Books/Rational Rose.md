@@ -1,6 +1,6 @@
 # Rational Rose
 
-[RationalRose简易教学](https://blog.csdn.net/gz153016/article/details/49641847)
+[RationalRose](https://blog.csdn.net/gz153016/article/details/49641847)
 
-![](c:/notebook/pictures/Snipaste_2023-02-18_00-23-26.png =800x)
+[RationalRose简易教学](file:///c:/notebook/Attach/Rational_Rose/Rational%20Rose简明实用教程_gz153016的博客-CSDN博客_rational%20rose.html)
 
