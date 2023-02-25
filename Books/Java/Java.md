@@ -1085,10 +1085,6 @@ public class FirstClass {                                                 //类�
 
 ### 关键字
 
-![001](vx_images/327595014247117.png =345x)
-
-![关键字](vx_images/193245214239786.png =478x)
-
 ### 保留字
 
 - goto
@@ -6824,7 +6820,7 @@ class Person{
 2. 特征：匿名对象只能调用一次
 3. 使用：
 
-```
+```java
 public class Test20 {
 	public static void main(String args[]) {
 		Phone p = new Phone();
@@ -6874,8 +6870,11 @@ class Phone{
 }
 ```
 ### 属性
-语法格式：
+
+**语法格式：**
+
 `修饰符 数据类型 属性名 = 初始化值 ; `
+
 - 说明1: 修饰符
    - 常用的权限修饰符(声明属性时，指明其权限; 封装性)有：private、缺省、protected、public
    - 其他修饰符：static、final (暂不考虑)
@@ -6885,6 +6884,7 @@ class Phone{
    - 属于标识符，符合命名规则和规范即可。
    
 #### 变量的分类：成员变量与局部变量
+
 - 在方法体外，类体内声明的变量称为成员变量。
 - 在方法体内部声明的变量称为局部变量。
 - 注意：二者在初始化值方面的异同:
@@ -6896,6 +6896,7 @@ class Phone{
 ![](C:/NoteBook/pictures/2235922247413.png =691x)
 
 **对象属性的默认初始化赋值**
+
 - 属性：类的属性，根据其类型都有默认的初始值
 - 局部变量没有默认初始化值
    - 形参在调用时赋值即可
@@ -6903,7 +6904,7 @@ class Phone{
 
 ![](C:/NoteBook/pictures/465885922240082.png =357x)
 
-```
+```java
 public class Test011 {
 	public static void main(String args[]) {
 		User u1 = new User();
@@ -6953,12 +6954,12 @@ class User {
     - public String getNation(String nation){}
 2. 方法的声明: 
 
-```
+```java
 权限修饰符 返回值类型 方法名(形参列表){
         方法体;    
 }
 ```
-```
+```java
 public class Test012 {
 	public static void main(String args[]) {
 		
@@ -6999,7 +7000,7 @@ Java规定的4种权限修饰符：private ,  public , 缺省 , protected
    - 如果方法有返回值，则必须在方法声明时，指定返回值的类型。
    - 同时方法中需要使用return关键字来返回指定类型的变量或常量。
  
-```
+```java
  	public String getName() {
 		
 		if(age > 18) {
@@ -7013,7 +7014,7 @@ Java规定的4种权限修饰符：private ,  public , 缺省 , protected
    - 方法声明时，使用void来表示
    - 通常没有返回值的方法中不需要使用return，如果使用，只能`return;`表示结束此方法的意思
    
-```
+```java
 	public void eat() {
 		System.out.println("客户吃饭");
 		return;  //表示结束
@@ -7023,6 +7024,7 @@ Java规定的4种权限修饰符：private ,  public , 缺省 , protected
 ```
 
 ##### return关键字的使用
+
 1. 使用范围：使用在方法体中
 2. 使用：
     - 结束方法
@@ -7032,18 +7034,22 @@ Java规定的4种权限修饰符：private ,  public , 缺省 , protected
     - 题目要求
     - 凭经验
 #### 方法名：
+
 - 属于标识符，遵循标识符的规则和规范
 
 #### 形参列表：
+
 - 方法可以声明零个，一个或多个形参
 - 格式：`数据类型1 形参1,数据类型2 形参2,...`
 - 该不该定义形参
     - 题目要求
-    - 凭经验，具体问题具体分析   
+    - 凭经验，具体问题具体分析 
+      
 #### 方法体
+
 - 方法功能的体现
 
-```
+```java
 public class Test012 {
 	public static void main(String args[]) {
 		Customer cust1 = new Customer();
@@ -7087,7 +7093,7 @@ class Customer{
 - 方法的内部可以调用方法
      - 递归：方法中再次调用自身
 
-```
+```java
 public class Test012 {
 	public static void main(String args[]) {
 		Customer cust1 = new Customer();
@@ -7118,9 +7124,11 @@ public void test(){
     public void testTwice(){} //报错，不可以在方法体内部声明方法
 }
 ```
+
 ### 练习
 #### 1.创建一个Person类
-```
+
+```java
 要求：
 (1)创建Person类的对象，设置该对象的name、age和sex属性，
    调用study方法，输出字符串“studying”，
@@ -7128,9 +7136,10 @@ public void test(){
    调用addAge()方法给对象的age属性值增加2岁。
 (2)创建第二个对象，执行上述操作，体会同一个类的不同对象之间的关系。
 ```
+
 ![](C:/NoteBook/pictures/238341115220955.png =166x)
 
-```
+```java
 public class Test013 {
 	public static void main(String args[]) {
 		PersonTest per1 = new PersonTest();
@@ -7166,7 +7175,8 @@ class PersonTest{
 }
 ```
 #### 2.利用面向对象的编程方法，设计类Circle计算圆的面积。
-```
+
+```java
 public class Test014 {
 	public static void main(String args[]) {
 		Circle c1 = new Circle();
@@ -7204,7 +7214,7 @@ class Circle{
 	}
 }
 ```
-```
+```java
 public class Test014 {
 	public static void main(String args[]) {
 		Circle c1 = new Circle();
@@ -7221,6 +7231,7 @@ class Circle{
 	}
 }
 ```
+
 #### 3.1 编写程序，声明一个method方法，在方法中打印一个`10*8 的*型矩形`，在main方法中调用该方法。
 ```
 public class Test015 {
@@ -7458,7 +7469,8 @@ class MyDate{
 
 ## 自定义数组的工具类
 ### 工具类
-```
+
+```java
 package StudyTest;
 
 public class Test021 {
@@ -7578,7 +7590,8 @@ public class Test021 {
 }
 ```
 ### 使用类
-```
+
+```java
 package StudyTest;
 
 public class Test022 {
@@ -7609,6 +7622,7 @@ public class Test022 {
 
 ## 方法
 ### 方法的重载
+
 - 重载的概念
    - 在同一个类中，允许存在一个以上的同名方法，只要它们的参数个数或者参数类型不同即可。
 - 重载的特点：
@@ -7742,7 +7756,7 @@ public class Test025 {
 5. 方法的参数部分有可变形参，需要放在形参声明的最后
 6. 在一个方法的形参位置，最多只能声明一个可变个数形参
 
-```
+```java
 public class Test026 {
 	public static void main(String args[]) {
 		Test026 test = new Test026();
@@ -7782,7 +7796,9 @@ public class Test026 {
 //	}
 }
 ```
+
 ### 方法参数的值传递机制
+
 - 关于变量的赋值
    - 基本数据类型 （赋值的是数据值）
    - 引用数据类型（赋值的是地址值）String也是
@@ -7799,7 +7815,7 @@ public class Test026 {
     -  即底层是用char[]存储
     - 特征：字符串常量值；不可变
 
-```
+```java
 public class Test027 {
 	public static void main(String args[]) {
 	
@@ -7828,7 +7844,7 @@ public class Test027 {
 }
 ```
 
-```
+```java
 public class Test029 {
 	public static void main(String args[]) {
 		Data data = new Data();
@@ -7861,7 +7877,7 @@ class Data{
 	int n;
 }
 ```
-```
+```java
 public class Test028 {
 	public static void main(String args[]) {
 		int[] arr = new int[] {1,2,3,4,2,3};
@@ -7909,7 +7925,7 @@ public class Test028 {
 
 ##### 1.
 
-```
+```java
 public class Test30 {
 	public static void main(String args[]) {
 		Test30 test = new Test30();
@@ -7954,7 +7970,7 @@ class Value {
 
 ##### String也是引用数据类型，但是较特殊,不可变
 
-```
+```java
 public class Test043 {
 	public static void main(String args[]) {
 		String s1 = "hello";
@@ -8314,9 +8330,11 @@ public class Test041 {
 
 ## 面向对象特征之一：封装和隐藏
 
+**高内聚低耦合**
+
 - 高内聚 ：类的内部数据操作细节自己完成，不允许外部干涉；
 - 低耦合 ：仅对外暴露少量的方法用于使用。
-- 
+
 - 隐藏对象内部的复杂性，只对外公开简单的接口。便于外界调用，从而提高系统的可扩展性、可维护性。通俗的说，把该隐藏的隐藏起来，该暴露的暴露出来。这就是封装性的设计思想。
 
 - 封装性的体现:
@@ -8329,20 +8347,20 @@ public class Test041 {
 
 
 **封装性的体现：**  
+
 1. 如上
 2. 不对外暴露的方法
 3. 单例模式(将构造器私有化)
 4. 如果不希望类在包外被调用，可以将类设置为缺省的
 
+### 封装性的体现需要访问权限修饰符  == 封装性
 
-### 封装性的体现需要访问权限修饰符  ==封装性
 - Java权限修饰符public、protected、(缺省)、private置于类的成员定义前，用来限定对象对该类成员的访问权限。
 - 可以用来修饰类及类的内部结构：属性，方法，构造器，内部类
 - 具体：
     - 4种权限都可以用来修饰类的内部结构；属性，方法，构造器，内部类
     - 修饰类的话，只能使用：缺省，public
  
-
 ![](C:/NoteBook/pictures/228253722220960.png =805x)
 
 - 对于class的权限修饰只可以用public和default(缺省)。
@@ -8352,7 +8370,8 @@ public class Test041 {
 ![](C:/NoteBook/pictures/56643822239386.png =411x)
 
 ### 例1
-```
+
+```java
 public class Test001 {
 	public static void main(String args[]) {
 		
@@ -8855,7 +8874,7 @@ class Student{
    - 有属性，且有对应的get、set方法
 - 用户可以使用JavaBean将功能、处理、值、数据库访问和其他任何可以用Java代码创造的对象进行打包，并且其他的开发者可以通过内部的JSP页面、Servlet、其他JavaBean、applet程序或者应用来使用这些对象。用户可以认为JavaBean提供了一种随时随地的复制和粘贴的功能，而不用关心任何改变。
 
-```
+```java
 public class JavaBean {
 	private String name; // 属性一般定义为private
 	private int age;
@@ -10394,21 +10413,19 @@ public class CircleTest {
 
 - 定义：在子类中可以根据需要对从父类中继承来的方法进行改造，也称为方法的重置、覆盖。在程序执行时，子类的方法将覆盖父类的方法。
 - 要求：
-   1. 子类重写的方法必须和父类被重写的方法具有相同的方法名称、参数列表
-   2. 子类重写的方法的返回值类型不能大于父类被重写的方法的返回值类型
+   1. **子类重写的方法必须和父类被重写的方法具有相同的方法名称、参数列表**
+   2. **子类重写的方法的返回值类型不能大于父类被重写的方法的返回值类型**
    - 父类被重写的方法的返回值是void，则子类重写的方法的返回值类型只能是void
    - 父类被重写的方法的返回值是A类型，则子类重写的方法的返回值类型可以是A类或A类的子类
    - 父类被重写的方法的返回值是基本数据类型，则子类重写的方法的返回值类型必须是相同的基本数据类型(父类double则子类只能是double)
-   3. 子类重写的方法使用的访问权限不能小于父类被重写的方法的访问权限
+   3. **子类重写的方法使用的访问权限不能小于父类被重写的方法的访问权限**
    - 子类不能重写父类中声明为private权限的方法
-   4. 子类方法抛出的异常不能大于父类被重写方法抛出的异常
+   4. **子类方法抛出的异常不能大于父类被重写方法抛出的异常**
 - 注意：
    - 子类与父类中同名同参数的方法必须同时声明为非static的(即为重写)，或者同时声明为static的（不是重写）。
       - 因为static方法是属于类的，子类无法覆盖父类的方法。静态的方法不能被覆盖，是随着类的加载而加载。
  
 #### 区分方法的重载和重写
-
-
 
 #### 例1
 ![](C:/NoteBook/pictures/124002610237748.png =733x)
@@ -10717,8 +10734,9 @@ public class PeopleTest {
 ```
 
 #### 调用父类的构造器
-- 子类中所有的构造器默认都会访问父类中空参数的构造器
-- 当父类中没有空参数的构造器时，子类的构造器必须通过this(参数列表)或者super(参数列表)语句指定调用本类或者父类中相应的构造器。同时，只能”二选一”，且必须放在构造器的首行。
+
+- **子类中所有的构造器默认都会访问父类中空参数的构造器**
+- **当父类中没有空参数的构造器时，子类的构造器必须通过this(参数列表)或者super(参数列表)语句指定调用本类或者父类中相应的构造器。同时，只能”二选一”，且必须放在构造器的首行。**
 - 在类的多个构造器中，至少有一个类的构造器中使用了`super(形参列表)`调用父类中的构造器。
 - 如果子类构造器中既未在首行显式调用父类`super(参数列表)`或本类`this(参数列表)`的构造器，且父类中又没有无参的构造器，则编译出错
 
@@ -11147,8 +11165,8 @@ public class Test001 {
    - 对象的多态性：父类的引用指向子类的对象
    - 可以直接应用在抽象类和接口上
 - Java引用变量有两个类型：编译时类型和运行时类型。
-   - 编译时类型由声明该变量时使用的类型决定，在编译期，只能调用父类中声明的方法
-   - 运行时类型由实际赋给该变量的对象决定。 在运行期，实际执行的是子类重写父类的方法
+   - **编译时类型由声明该变量时使用的类型决定，在编译期，只能调用父类中声明的方法**
+   - **运行时类型由实际赋给该变量的对象决定。 在运行期，实际执行的是子类重写父类的方法**
        - 简称：编译时，看左边；运行时，看右边。
 - 若编译时类型和运行时类型不一致，就出现了对象的多态性(Polymorphism)
   - 多态情况下，
@@ -11165,7 +11183,8 @@ public class Test001 {
 - 一个引用类型变量可能指向(引用)多种不同类型的对象
 - 有了对象的多态性以后，内存中实际上是加载了子类特有的属性和方法，
     - 但是由于变量声明为父类类型，导致编译时，只能调用父类中声明的属性和方法。子类特有的属性和方法不能调用。
-```
+    
+```java
 Person p = new Student();
 Object o = new Person();//Object类型的变量o，指向Person类型的对象
 o = new Student(); //Object类型的变量o，指向Student类型的对象
@@ -11175,12 +11194,13 @@ o = new Student(); //Object类型的变量o，指向Student类型的对象
 
 - 一个引用类型变量如果声明为父类的类型，但实际引用的是子类对象，那么该变量就不能再访问子类中添加的属性和方法
 
-```
+```java
 Student m = new Student();
 m.school = “pku”; //合法,Student类有school成员变量
 Person e = new Student(); 
 e.school = “pku”; //非法,Person类没有school成员变量
 ```
+
 - 属性是在编译时确定的，编译时e为Person类型，没有school成员变量，因而编译错误。
 
 ### 例1
@@ -11395,7 +11415,7 @@ public static void main(Stirng args[]) {
 
 - 正常的方法调用
 
-```
+```java
 Person e = new Person();
 e.getInfo();
 Student e = new Student();
@@ -11403,15 +11423,15 @@ e.getInfo();
 ```
 
 - 虚拟方法调用(多态情况下)
-子类中定义了与父类同名同参数的方法，在多态情况下，将此时父类的方法称为虚拟方法，父类根据赋给它的不同子类对象，动态调用属于子类的该方法。这样的方法调用在编译期是无法确定的。
+    - **子类中定义了与父类同名同参数的方法，在多态情况下，将此时父类的方法称为虚拟方法**，父类根据赋给它的不同子类对象，动态调用属于子类的该方法。这样的方法调用在编译期是无法确定的。
 
-```
+```java
 Person e = new Student();
 e.getInfo(); //调用Student类的getInfo()方法
 ```
 
 - 编译时类型和运行时类型
-编译时e为Person类型，而方法的调用是在运行时确定的，所以调用的是Student类的getInfo()方法。——动态绑定
+    - 编译时e为Person类型，而方法的调用是在运行时确定的，所以调用的是Student类的getInfo()方法。——动态绑定
 
 #### 虚拟方法调用举例：
 
@@ -11423,10 +11443,11 @@ e.getInfo(); //调用Student类的getInfo()方法
    - 多态的情况下，调用对象的welcome()方法，实际执行的是子类重写的方法。
 
 ### 方法的重载与重写
+
 1. 二者的定义细节：略
 2. 从编译和运行的角度看：
-   - 重载，是指允许存在多个同名方法，而这些方法的参数不同。编译器根据方法不同的参数表，对同名方法的名称做修饰。对于编译器而言，这些同名方法就成了不同的方法。它们的调用地址在编译期就绑定了。Java的重载是可以包括父类和子类的，即子类可以重载父类的同名不同参数的方法。
-所以：对于重载而言，在方法调用之前，编译器就已经确定了所要调用的方法，这称为“早绑定”或“静态绑定”；而对于多态，只有等到方法调用的那一刻，解释运行器才会确定所要调用的具体方法，这称为“晚绑定”或“动态绑定”。引用一句Bruce Eckel的话：“不要犯傻，如果它不是晚绑定，它就不是多态。”
+   - **重载，是指允许存在多个同名方法，而这些方法的参数不同**。编译器根据方法不同的参数表，对同名方法的名称做修饰。**对于编译器而言，这些同名方法就成了不同的方法。它们的调用地址在编译期就绑定了**。Java的重载是可以包括父类和子类的，即子类可以重载父类的同名不同参数的方法。
+所以：对于**重载而言，在方法调用之前，编译器就已经确定了所要调用的方法，这称为“早绑定”或“静态绑定”；而对于多态，只有等到方法调用的那一刻，解释运行器才会确定所要调用的具体方法，这称为“晚绑定”或“动态绑定”**。引用一句Bruce Eckel的话：“不要犯傻，如果它不是晚绑定，它就不是多态。”
 
 ### 多态小结
 - 多态作用：
@@ -11435,18 +11456,19 @@ e.getInfo(); //调用Student类的getInfo()方法
    - 需要存在继承或者实现关系
    - 有方法的重写
 - 成员方法：
-   -  编译时：要查看引用变量所声明的类中是否有所调用的方法。 
+   - 编译时：要查看引用变量所声明的类中是否有所调用的方法。 
    - 运行时：调用实际new的对象所属的类中的重写方法。
 - 成员变量：
    - 不具备多态性，只看引用变量所声明的类。
    
 ### instanceof 操作符
+
 - x instanceof A：检验x是否为类A的对象，返回值为boolean型。
     - 要求x所属的类与类A必须是子类和父类的关系，否则编译错误。
     - 如果x属于类A的子类B，x instanceof A值也为true。
 - 为了避免在向下转型时出现ClassCastException的异常，在向下转型之前，先进行instanceof的判断，一旦返回true，就进行向下转型。如果返回false，不进行向下转型。
 
-```
+```java
 public class Person extends Object {…}
 public class Student extends Person {…}
 public class Graduate extends Person {…}
@@ -11462,14 +11484,15 @@ public void method1(Person e) {
 ```
 
 ### 对象类型转换 (Casting )
+
 - 基本数据类型的Casting：
    - 自动类型转换：小的数据类型可以自动转换成大的数据类型
      - 如long g=20; double d=12.0f
    - 强制类型转换：可以把大的数据类型强制转换(casting)成小的数据类型
      - 如 float f=(float)12.0; int a=(int)1200L
 - 对Java对象的强制类型转换称为造型
-   - 从子类到父类的类型转换可以自动进行
-   - 从父类到子类的类型转换必须通过造型(强制类型转换)实现
+   - 从**子类到父类的类型转换可以自动进行**
+   - 从**父类到子类的类型转换必须通过造型(强制类型转换)实现**
    - 无继承关系的引用类型间的转换是非法的
    - 在造型前可以使用instanceof操作符测试一个对象的类型
 
@@ -12803,27 +12826,27 @@ boolean b = bObj.booleanValue();
 
 ![](C:/NoteBook/pictures/361952223247889.png =102x)
 
-- 字符串转换成基本数据类型
-1. 通过包装类的构造器实现：
+- **字符串转换成基本数据类型**
+1. 通过**包装类的构造器**实现：
 
 ```
 int i = new Integer(“12”);
 ```
 
-2. 通过包装类的parseXxx(String s)静态方法：
+2. 通过包装类的**parseXxx(String s)静态方法**：
 
 ```
 Float f = Float.parseFloat(“12.1”);
 ```
 
-- 基本数据类型转换成字符串
-1.  调用字符串重载的valueOf()方法：
+- **基本数据类型转换成字符串**
+1.  调用字符串重载的**valueOf()**方法：
 
 ```
 String fstr = String.valueOf(2.34f);
 ```
 
-2. 更直接的方式：
+2. 更直接的方式：**数值 + ""**
 
 ```
 String intStr = 5 + ""
@@ -13200,12 +13223,12 @@ public class StaticTest {
 
 #### 使用static修饰方法，静态方法：
 
-1. 随着类的加载而加载，
+1. **随着类的加载而加载**，
    - 可以通过`类.静态方法`的方式进行调用，
-2. 静态方法中只能调用静态的方法或属性。(生命周期)
-   - 非静态方法中既可以调用静态的也可以调用非静态的方法或属性 
-- 在静态方法内不能使用this或super关键字
-- static修饰的方法不能被重写
+2. **静态方法中只能调用静态的方法或属性。**(生命周期)
+   - **非静态方法中既可以调用静态的也可以调用非静态的方法或属性 **
+- **在静态方法内不能使用this或super关键字**
+- **static修饰的方法不能被重写**
 
 ### 在开发中，如何确定一个属性或方法是否声明为static的？
 
@@ -13396,234 +13419,6 @@ class Account {
 }
 ```
 
-## 单例 (Singleton)设计模式
-
-- 设计模式是在大量的实践中总结和理论化之后优选的代码结构、编程风格、以及解决问题的思考方式。设计模式免去我们自己再思考和摸索。
-- 所谓类的单例设计模式，就是采取一定的方法保证在整个的软件系统中，对某个类只能存在一个对象实例，并且该类只提供一个取得其对象实例的方法。
-- 如果我们要让类在一个虚拟机中只能产生一个对象，我们首先必须将类的构造器的访问权限设置为private，这样，就不能用new操作符在类的外部产生类的对象了，但在类内部仍可以产生该类的对象。
-- 因为在类的外部开始还无法得到类的对象，只能调用该类的某个静态方法以返回类内部创建的对象，静态方法只能访问类中的静态成员变量，所以，指向类内部产生的该类对象的变量也必须定义成静态的。
-
-### 单例(Singleton)设计模式-饿汉式
-
-```
-package com.zjk;
-
-public class SingletonTest1 {
-	public static void main(String[] args) {
-//		Bank bank1 = new Bank(); 
-//		构造器私有化，无法在类外创建对象
-		
-		Bank bank1 = Bank.getInstance(); 
-		Bank bank2 = Bank.getInstance();
-		System.out.println(bank1 == bank2); //true
-		
-	}
-}
-
-class Bank{
-//	1.私有化类的构造器
-	private Bank() {
-		
-	}
-	
-//	2.内部创建类的对象
-//	要求此对象也必须是静态的
-	private static Bank instance = new Bank();
-	
-//	3.提供公共的静态方法，返回类的对象
-	public static Bank getInstance() {
-		return instance;
-	}
-}
-```
-```
-package com.zjk;
-
-public class SingletonTest1 {
-	public static void main(String[] args) {
-//		Bank bank1 = new Bank(); 
-//		构造器私有化，无法在类外创建对象
-		
-		Bank bank1 = Bank.instance; 
-//		Bank.instance = null;
-		Bank bank2 = Bank.instance;
-		System.out.println(bank1 == bank2); //true
-		
-	}
-}
-
-class Bank{
-//	1.私有化类的构造器
-	private Bank() {
-		
-	}
-	
-//	2.内部创建类的对象
-//	要求此对象也必须是静态的
-	public final static Bank instance = new Bank();
-	//进行final的修改，public
-	
-//	3.提供公共的静态方法，返回类的对象
-	public static Bank getInstance() {
-		return instance;
-	}
-}
-
-class BankTest{
-	private static BankTest instance = null;
-	static {
-		instance = new BankTest();
-	}
-}
-```
-```
-class BankTest{
-	private static BankTest instance = null;
-	static {
-		instance = new BankTest();
-	}
-}
-```
-
-### 单例(Singleton)设计模式-懒汉式
-
-```
-package com.zjk;
-
-public class SingketonTest2 {
-	public static void main(String[] args) {
-		
-		Order o1 = Order.getInstance();
-		Order o2 = Order.getInstance();
-		System.out.println(o1 == o2);
-	}
-}
-
-class Order{
-//	1.私有化类的构造器
-	private Order() {
-		
-	}
-	
-//	2.声明当前类对象,不进行初始化
-//	此对象也必须声明为static的
-	private static Order instance = null;
-	
-//	3.声明public static的返回当前类对象的方法
-	public static Order getInstance() {
-		if(instance == null){
-			instance = new Order();
-		}
-		return instance;
-	}
-}
-```
-
-```
-class Order{
-//	1.私有化类的构造器
-	private Order() {
-		
-	}
-	
-//	2.声明当前类对象,不进行初始化
-//	此对象也必须声明为static的
-	private static Order instance = null;
-	
-//	3.声明public static的返回当前类对象的方法	
-//方式1 ：效率较低
-//public static sychronized Order getInstance() {
-//		if(instance == null){
-//			instance = new Order();
-//		}
-//		return instance;
-//	}
-//方式2 
-  public static Order getInstance(){
-    if(instance == null){
-      sychronized(Order.class){
-        if(instance == null){
-           instance = new Order();
-        }
-      }
-    } 
-    return instance;
-  }
-}
-```
-
-### 区分饿汉式和懒汉式
-
-- 饿汉式：
-   - 对象加载时间过长 
-   - 线程安全
-- 懒汉式：
-   - 延迟对象的创建 
-   - 线程不安全  --多线程时修改
-   
-### 单例模式的优点：
-
-由于单例模式只生成一个实例，减少了系统性能开销，当一个对象的产生需要比较多的资源时，如读取配置、产生其他依赖对象时，则可以通过在应用启动时直接产生一个单例对象，然后永久驻留内存的方式来解决。
-
-![](C:/NoteBook/pictures/339561509227262.png =462x)
-
-### 单例(Singleton)设计模式-应用场景
-
-- 网站的计数器，一般也是单例模式实现，否则难以同步。
-- 应用程序的日志应用，一般都使用单例模式实现，这一般是由于共享的日志文件一直处于打开状态，因为只能有一个实例去操作，否则内容不好追加。
-- 数据库连接池的设计一般也是采用单例模式，因为数据库连接是一种数据库资源。
-- 项目中，读取配置文件的类，一般也只有一个对象。没有必要每次使用配置文件数据，都生成一个对象去读取。
-- Application 也是单例的典型应用
-- Windows的Task Manager (任务管理器)就是很典型的单例模式
-- Windows的Recycle Bin (回收站)也是典型的单例应用。在整个系统运行过程中，回收站一直维护着仅有的一个实例。
-
-
-## 理解main方法的语法
-
-- 由于Java虚拟机需要调用类的main()方法，所以该方法的访问权限必须是public，又因为Java虚拟机在执行main()方法时不必创建对象，所以该方法必须是static的，该方法接收一个String类型的数组参数，该数组中保存执行Java命令时传递给所运行的类的参数。
-- 又因为main() 方法是静态的，我们不能直接访问该类中的非静态成员，必须创建该类的一个实例对象后，才能通过这个对象去访问类中的非静态成员，这种情况，我们在之前的例子中多次碰到
-
-**mian()方法的使用说明：**
-
-1. main()方法作为程序的入口
-2. main()方法也是一个普通的静态方法
-3. main()方法可以作为我们与控制台交互的方式
-
-
-### 命令行参数用法举例
-
-```
-package com.zjk;
-
-public class MainTest {
-
-	public static void main(String[] args) { //静态的方法
-//		public 访问权限修饰符 
-//		static 静态
-//		void   无返回值
-//		main   main方法名
-//		String[] args 形参
-		Main.main(new String[100]);
-		
-//		show(); 非静态的方法，要通过对象调用
-	}
-	
-	public void show() {
-		
-	}
-}
-
-class Main {
-	public static void main(String[] args) {
-		args = new String[100];
-		for (int i = 0; i < args.length; i++) {
-			args[i] = "args_" + i;
-			System.out.println(args[i]);
-		}
-	}
-}
-```
-
 ### main()方法可以作为我们与控制台交互的方式
 
 #### eclipse
@@ -13723,22 +13518,22 @@ class Person {
 }
 ```
 
--  静态代码块：用static 修饰的代码块
+-  **静态代码块：用static 修饰的代码块**
 1. 可以有输出语句。
 2. 可以对类的属性、类的声明进行初始化操作。
-3. 不可以对非静态的属性初始化。即：不可以调用非静态的属性和方法。
-4. 若有多个静态的代码块，那么按照从上到下的顺序依次执行。
-5. 静态代码块的执行要先于非静态代码块。
-6. 静态代码块随着类的加载而加载，且只执行一次。
+3. **不可以对非静态的属性初始化。即：不可以调用非静态的属性和方法。**
+4. 若有多个静态的代码块，那么按照**从上到下的顺序**依次执行。
+5. **静态代码块的执行要先于非静态代码块。**
+6. **静态代码块随着类的加载而加载，且只执行一次**。
 
-- 非静态代码块：没有static修饰的代码块
+- **非静态代码块**：没有static修饰的代码块
 1. 可以有输出语句。
 2. 可以在创建对象时，对类（对象）的属性、类（对象）的声明进行初始化操作。
 3. 除了调用非静态的结构外，还可以调用静态的变量或方法。
-4. 若有多个非静态的代码块，那么按照从上到下的顺序依次执行。
-5. 每次创建对象的时候，都会执行一次。且先于构造器执行。
+4. 若有多个非静态的代码块，那么按照**从上到下的顺序**依次执行。
+5. **每次创建对象的时候，都会执行一次。且先于构造器执行**。
 
-```
+```java
 package com.zjk;
 
 public class BlockTest {
@@ -13828,6 +13623,9 @@ class Person {
 2. 显式初始化/在代码块中赋值(谁在上，谁先)
 3. 构造器中初始化
 4. 有了构造器后：“对象.属性”或“对象.方法”的方式，进行赋值
+
+**变量赋值执行顺序：默认初始化-->静态代码块-->非静态代码块-->构造器-->对象.属性/对象.方法**
+
 
 ![](C:/NoteBook/pictures/485915210221046.png =462x)
 
@@ -13953,12 +13751,12 @@ public class Son extends Father {
 ## 关键字：final
 
 - 在Java中声明类、变量和方法时，可使用关键字final来修饰,表示“最终的”。
-    - final标记的类不能被继承。提高安全性，提高程序的可读性。
+    - **final标记的类不能被继承**。提高安全性，提高程序的可读性。
        - String类、System类、StringBuffer类
-    - final标记的方法不能被子类重写。
+    - **final标记的方法不能被子类重写**。
        - 比如：Object类中的getClass()。
     - final标记的变量(成员变量或局部变量)即称为常量。名称大写，且只能被赋值一次。
-       - final标记的成员变量必须在声明时或在每个构造器中或代码块中显式赋值，然后才能使用。
+       - **final标记的成员变量必须在声明时或在<mark>每个</mark>构造器中或代码块中显式赋值，然后才能使用**。
        - final double MY_PI = 3.14;
 
 **final修饰变量--常量**
@@ -14062,28 +13860,26 @@ class Other {
 ```
 
 ## 抽象类与抽象方法
- 
-随着继承层次中一个个新子类的定义，类变得越来越具体，而父类则更一般，更通用。类的设计应该保证父类和子类能够共享特征。有时将一个父类设计得非常抽象，以至于它没有具体的实例，这样的类叫做抽象类。
 
-- 用abstract关键字来修饰一个类，这个类叫做抽象类。
-    - 抽象类不能被实例化。抽象类是用来被继承的，（抽象类可以使用多态）
+- 用**abstract关键字来修饰一个类，这个类叫做抽象类**。
+    - **抽象类不能被实例化**。抽象类是用来被继承的，（抽象类可以使用多态）
         - new  抽象类()；是非法的
     - 抽象类中一定有构造器，便于子类实例化时调用（涉及子类对象实例化的全过程）
     - 开发中，都会提供抽象类的子类，让子类对象实例化，完成相关操作。
 - 用abstract来修饰一个方法，该方法叫做抽象方法。
-    - 抽象方法：只有方法的声明，没有方法的实现。以分号结束：（没有代码块{}）
-    - 含有抽象方法的类必须被声明为抽象类。
-         - 而抽象类中不一定拥有抽象方法（可以没有）
-    - 抽象类的子类必须重写父类（包括父类的父类...）的抽象方法，并提供方法体。才可以进行实例化
-         - 若没有重写全部的抽象方法，仍为抽象类。则必须使用abstract修饰，不能进行实例化。
+    - **抽象方法：只有方法的声明，没有方法的实现。以分号结束：（没有代码块{}）**
+    - **含有抽象方法的类必须被声明为抽象类**。
+         - **而抽象类中不一定拥有抽象方法，可以有普通的方法**
+    - **抽象类的子类必须重写父类（包括父类的父类...）的抽象方法**，并提供方法体。才可以进行实例化
+         - 若没有重写全部的抽象方法，仍为抽象类。**否则必须使用abstract修饰**，不能进行实例化。
 - 不能用abstract修饰变量、代码块、构造器；
-- 不能用abstract修饰私有方法private、静态方法static、final的方法、final的类。
+- **不能用abstract修饰私有方法private、静态方法static、final的方法、final的类。**
     - 父类中private的结构对子类不可见，不是重写
     - static修饰的方法不能被重写
     - final修饰的方法不能重写 
     - final修饰的类不能被继承
 
-```
+```java
 package com.zjk;
 
 public class AbstractTest {
@@ -14160,7 +13956,7 @@ class Student extends Person {
 要求类中提供必要的方法进行属性访问。
 ```
 
-```
+```java
 package com.zjk;
 
 public class EmployeeTest {
@@ -14226,7 +14022,7 @@ class Manager extends Employee {
 
 ### 抽象类的匿名子类
 
-```
+```java
 package com.zjk;
 
 public class PersonTest {
@@ -14319,7 +14115,7 @@ class Worker extends Person {
    - Hibernate中模板程序
    - Spring中JDBCTemlate、HibernateTemplate等
    
-```
+```java
 package com.zjk;
 
 public class TemplateTest {
@@ -14368,7 +14164,7 @@ class SubTemplate extends Template {
 }
 ```
 
-```
+```java
 package com.atguigu.java;
 //抽象类的应用：模板方法的设计模式
 public class TemplateMethodTest {
@@ -14449,7 +14245,7 @@ c1[0]=new Student("John","0001",20,85.0);
 c1[1]=new Officer("Bob","0002",19,90.5);
 ```
 
-```
+```java
 package com.zjk;
 
 import java.util.Scanner;
@@ -14746,29 +14542,29 @@ class HourlyEmployee extends Employee {
     - JDK7以之前：只能定义全局常量和抽象方法
     - 从本质上讲，接口是一种特殊的抽象类，这种抽象类中只包含常量和方法的定义(JDK7.0及之前)，而没有变量和方法的实现。
         - 全局常量：public static final修饰的 编译时可以省略
-           - 接口中的所有成员变量都默认是由public static final修饰的。
+           - **接口中的所有成员变量都默认是由public static final修饰的**。
         - 抽象方法：public abstract修饰的 编译时可以省略
-           - 接口中的所有抽象方法都默认是由public abstract修饰的。
+           - **接口中的所有抽象方法都默认是由public abstract修饰的。**
     - JDK8：
         - 除了定义JDK7之前的，还可以：
         - 定义静态方法pulic static
         - 默认方法
-- 接口中没有构造器。不能实例化
+- **接口中没有构造器。不能实例化**
    - 接口的主要用途就是被实现类实现。（面向接口编程）
    - 实现接口的类中必须提供接口中所有方法的具体实现内容(覆盖接口中的所有抽象方法)，方可实例化。否则，仍为抽象类。
-- 接口采用多继承机制。Java类可以实现多个接口. **多态性**
+- 接口采用多继承机制。**Java类可以实现多个接口**. **多态性**
    - 与继承关系类似，接口与实现类之间存在多态性
    - 定义Java类的语法格式：先写extends，后写implements
 
-```
+```java
 class SubClass extends SuperClass implements InterfaceA{ 
    ...
 }
 ```
 
-- 一个类可以实现(implements)多个接口，接口也可以继承(extends)其它接口(可以多继承)。
+- **一个类可以实现(implements)多个接口，接口也可以继承(extends)其它接口(可以多继承)**。
 
-```
+```java
 interface 接口1 extends 接口2,接口3{ //不是implements
    ...
 }
@@ -14776,7 +14572,7 @@ interface 接口1 extends 接口2,接口3{ //不是implements
 
 ### 例
 
-```
+```java
 package com.zjk;
 
 public class InterfaceTest {
@@ -14873,7 +14669,7 @@ interface CC extends AA,BB{
 }
 ```
 
-```
+```java
 package com.zjk;
 
 public class USBTest {
@@ -14987,7 +14783,7 @@ class Printer implements USB {
    - 动态代理（动态生成代理类）
       - JDK自带的动态代理，需要反射等知识
    
-```
+```java
 package com.zjk;
 
 public class NetWorkTest {
@@ -15077,7 +14873,7 @@ GOF 在《设计模式》一书中将工厂模式分为两类：工厂方法模�
 
 ![](C:/NoteBook/pictures/271765020247508.png =302x)
 
-```
+```java
 package com.atguigu.pattern.factory.nofactory;
 
 interface Car {
@@ -15613,13 +15409,13 @@ public class Man extends Father implements Filial, Spoony {
 
 - 在Java中，允许一个类的定义位于另一个类的内部，前者称为内部类，后者称为外部类。
    - (允许一个类A声明在另一个类B中，则类A是内部类，类B是外部类)
-- Inner class一般用在定义它的类或语句块之内，在外部引用它时必须给出完整的名称。
-- Inner class的名字不能与包含它的外部类类名相同；
+- 内部 class一般用在定义它的类或语句块之内，在外部引用它时必须给出完整的名称。
+- 内部 class的名字不能与包含它的外部类类名相同；
 - 分类： 
    - 成员内部类（static成员内部类和非static成员内部类）
    - 局部内部类[方法内，代码块内，构造器内]（不谈修饰符）、匿名内部类
 
-- 成员内部类和局部内部类，在编译以后，都会生成字节码文件
+- **成员内部类和局部内部类，在编译以后，都会生成字节码文件**
 - 格式：
    - 成员内部类：外部类$内部类名.class
    - 局部内部类：外部类$数字 内部类名.class 
@@ -15628,7 +15424,7 @@ public class Man extends Father implements Filial, Spoony {
 
 **成员内部类作为外部类的成员：**
 
-- 和外部类不同，成员内部类还可以声明为private或protected；（包括public和缺省）
+- 和外部类不同，**成员内部类还可以声明为private或protected；（包括public和缺省）**
 - 可以调用外部类的结构
 - 可以被static修饰，但此时就不能再使用外层类的非static的成员变量；
 
@@ -15638,7 +15434,7 @@ public class Man extends Father implements Filial, Spoony {
 - 可以被abstract修饰，
 - 可以被final修饰,表示此类不能被继承；
     - 没有被final修饰则可以被继承 
-- 编译以后生成OuterClass$InnerClass.class字节码文件（也适用于局部内部类）
+- 编译以后生成**OuterClass$InnerClass.class字节码文件**（也适用于局部内部类）
 
 **关注**
 
@@ -15656,7 +15452,7 @@ public class Man extends Father implements Filial, Spoony {
 
 #### 例
 
-```
+```java
 package com.zjk;
 
 public class InnerClassTest {
@@ -15761,9 +15557,9 @@ class 外部类{
 **局部内部类的特点**
 
 - 内部类仍然是一个独立的类，在编译之后内部类会被编译成独立的.class文件，但是前面冠以外部类的类名和$符号，以及数字编号。
-- 只能在声明它的方法或代码块中使用，而且是先声明后使用。除此之外的任何地方都不能使用该类。
+- **只能在声明它的方法或代码块中使用，而且是先声明后使用**。除此之外的任何地方都不能使用该类。
 - 局部内部类可以使用外部类的成员，包括私有的。
-- 局部内部类可以使用外部方法的局部变量，但是必须是final的。
+- **局部内部类可以使用外部方法的局部变量，但是必须是final的**。
     - 由局部内部类和局部变量的声明周期不同所致。
     - JDK7之前，要求此变量显式声明为final
     - JDK8之后，可以省略final的声明(自动补上)
@@ -15772,7 +15568,7 @@ class 外部类{
 
 #### 例
 
-```
+```java
 package com.zjk;
 
 public class InnerClassTest1 {
@@ -15840,7 +15636,7 @@ public class InnerClassTest {
 - 一个匿名内部类一定是在new的后面，用其隐含实现一个接口或实现一个类。
 - 格式：
 
-```
+```java
 new 父类构造器（实参列表）|实现接口(){
     //匿名内部类的类体部分
 }
@@ -15897,11 +15693,11 @@ Java平台中的类与接口都是根据功能以包组织的。每个包中都�
 
 使用package语句指定一个源文件中的类属于一个特定的包。package语句的格式如下：
 
-```
+```java
 package pkg1[.pkg2[.pkg3...]];
 ```
 
-```
+```java
 package graphics;
 //Circle类成为graphics包中的一个public成员，并存放在classPath\graphics目录中。
 public class Circle extends Graphic implements Draggable{
@@ -15926,6 +15722,7 @@ public class Circle extends Graphic implements Draggable{
 - 使用长名(long name,由包名与类/接口名组成)引用包成员。
 
 ##### import语句 引入包成员
+
 可以先引人包中的指定类或整个包，再使用该类。这时可以直接使用类名或接口名在Java中引人包（如JDK中的包或用户自定义的包）中的类是通过import语句实现的，
 
 **import语句的格式如下**：
@@ -15960,5 +15757,3 @@ import pkgl[.pkg2[.pkg3.].(classname|*)；
 ## 面向对象内容总结
 
 ### 生命周期
-
-
