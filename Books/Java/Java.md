@@ -13766,7 +13766,7 @@ public class Son extends Father {
    - 使用final修饰形参时，为常量。当我们调用此方法时，给常量形参赋一个实参，一旦赋值以后，就只能在方法中使用此形参，但不能进行重新赋值
 - static final  修饰属性 ： 全局常量
    
-```
+```java
 package com.zjk;
 
 public class FinalTest {
